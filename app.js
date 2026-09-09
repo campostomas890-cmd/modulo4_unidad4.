@@ -12,6 +12,41 @@ var novedadesRouter = require('./routes/admin/novedades');
 
 var app = express();
 
+require('dotenv').config();
+var express=require('express');
+var path=require('path');
+var session = require('epxress-session');
+
+var loginRouter=require('./routes/admin/login');
+var adminNovedadesRouter=require('./routes/admin/novedades');
+
+var app=express();
+
+//configuracion de la sesion
+app.use(session({
+  secret:'palabrasupersecreta',
+  cookie:{maxAge:null},
+  resave:true,
+  saveUnitialized:true
+}));
+//middleware de seguridad (secured)
+var secured= async  (req,res,next) => {
+  try{
+    console.log(req.session.id_usuario);
+    if(req.session.id_usuario) {
+      next();
+    }else{
+      res.redirect('/admin/login');
+    }
+} catch (error){
+   console.log(error);
+  }
+};
+
+//asignacion de rutas
+app.use('/admin/login',loginRouter);
+app.use('/admin/novedades',secured,adminNovedadesRouter);
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
@@ -41,5 +76,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+
 
 module.exports = app;
