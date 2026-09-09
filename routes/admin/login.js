@@ -11,31 +11,33 @@ router.get('/',function(req,res,next){
 
 //formulario login
 
-router.post('/',async function(req,res,next){
-    try{
-        var usuario=req.body.usuario;
-        var password=req.body.password;
+router.post('/', async function(req, res, next) {
+    try {
+        var usuario = req.body.usuario;
+        var password = req.body.password;
 
-        var data = await usuarioModel.getUserBynameAndPassword(usuario,password);
-        if(data != undefined){
-            req.session.id_usuario=data.id;
-            req.session.nombre=data.usuario;
+        var data = await usuarioModel.getUserBynameAndPassword(usuario, password);
+        if (data != undefined) {
+            req.session.id_usuario = data.id;
+            req.session.nombre = data.usuario;
             res.redirect('/admin/novedades');
-        }else{
-            res.render('admin/login',{
-                layout:'admin/layout',
-                error:true,
+        } else {
+            res.render('admin/login', {
+                layout: 'admin/layout',
+                error: true
             });
         }
     } catch (error) {
-         console.log(error);
+        console.log(error);
     }
+});
 
-    //logout
-    router.get('/logout',function(req,res,next){
-        req.session.destroy();
-        res.render('admin/login',{
-            layout:'admin/layout'
-        });
-    }
-    module.exports=router;
+//logout
+router.get('/logout', function(req, res, next) {
+    req.session.destroy();
+    res.render('admin/login', {
+        layout: 'admin/layout'
+    });
+});
+
+module.exports = router;
