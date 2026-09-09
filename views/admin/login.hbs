@@ -1,0 +1,20 @@
+<div class="container" style="margin-top: 100px; max-width: 400px;">
+    <h2 class="text-center">Iniciar Sesión</h2>
+    //formulario de inicio de sesion
+    <form action="/admin/login" method="post">
+    <div class="mb-3">
+        <input type="text" class="form-contro" placeholder="usuario" name="usuario" required>
+    </div>
+    <div class="mb-3">
+        <input type="password" class="form-control" placeholder="contraseña" name="contraseña" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+    </form>
+    //fin
+
+    {{#if error}}
+    <div class="alert alert-danger mt-3" role="alert">
+        usuario o contraseña incorrectos
+    </div>
+    {{/if}}
+</div>
