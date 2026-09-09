@@ -15,7 +15,7 @@ var app = express();
 require('dotenv').config();
 var express=require('express');
 var path=require('path');
-var session = require('epxress-session');
+var session = require('express-session');
 
 var loginRouter=require('./routes/admin/login');
 var adminNovedadesRouter=require('./routes/admin/novedades');
@@ -27,7 +27,7 @@ app.use(session({
   secret:'palabrasupersecreta',
   cookie:{maxAge:null},
   resave:true,
-  saveUnitialized:true
+  saveUninitialized:true
 }));
 //middleware de seguridad (secured)
 var secured= async  (req,res,next) => {
