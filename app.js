@@ -9,6 +9,7 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var novedadesRouter = require('./routes/admin/novedades');
+var contactoRouter = require('./routes/contacto');
 
 var app = express();
 
@@ -43,10 +44,6 @@ var secured= async  (req,res,next) => {
   }
 };
 
-//asignacion de rutas
-app.use('/admin/login',loginRouter);
-app.use('/admin/novedades',secured,adminNovedadesRouter);
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
@@ -60,6 +57,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/admin/novedades', novedadesRouter);
+app.use('/contacto', contactoRouter);
+
+// Las rutas se registran después de los middlewares que leen los formularios.
+app.use('/admin/login', loginRouter);
+app.use('/admin/novedades', secured, adminNovedadesRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

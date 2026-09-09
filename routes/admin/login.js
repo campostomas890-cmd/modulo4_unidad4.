@@ -9,14 +9,20 @@ router.get('/',function(req,res,next){
   });
 });
 
+router.get('/registro', function(req, res, next) {
+    res.render('admin/registro', {
+        layout: 'admin/layout'
+    });
+});
+
 //formulario login
 
 router.post('/', async function(req, res, next) {
     try {
         var usuario = req.body.usuario;
-        var password = req.body.password;
+        var password = req.body.contraseña;
 
-        var data = await usuarioModel.getUserBynameAndPassword(usuario, password);
+        var data = await usuarioModel.getUserByUsernameAndPassword(usuario, password);
         if (data != undefined) {
             req.session.id_usuario = data.id;
             req.session.nombre = data.usuario;
@@ -38,6 +44,23 @@ router.get('/logout', function(req, res, next) {
     res.render('admin/login', {
         layout: 'admin/layout'
     });
+});
+
+router.post('/registro', async function(req, res, next) {
+    try {
+        if (!req.body.usuario || !req.body.contraseña) {
+            return res.render('admin/registro', {
+                layout: 'admin/layout',
+                error: true,
+                message: 'Usuario y contraseña son obligatorios'
+            });
+        }
+
+        await usuarioModel.insertUser(req.body);
+        res.redirect('/admin/login');
+    } catch (error) {
+        next(error);
+    }
 });
 
 module.exports = router;

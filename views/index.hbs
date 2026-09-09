@@ -215,10 +215,16 @@
       <!-- Contáctanos (Formulario) -->
       <div class="col-md-4 mt-4 mt-sm-0">
         <h2>Contáctanos</h2>
-        <form class="row g-3" action="#" method="POST">
+        {{#if contactoEnviado}}
+          <div class="alert alert-success" role="alert">Mensaje enviado correctamente.</div>
+        {{/if}}
+        {{#if contactoError}}
+          <div class="alert alert-danger" role="alert">Completa nombre, email y mensaje.</div>
+        {{/if}}
+        <form class="row g-3" action="/contacto" method="POST">
           <div class="col-md-6">
             <label for="nombre" class="form-label">Nombre</label>
-            <input type="text" class="form-control" id="nombre" name="nombre" placeholder="...">
+            <input type="text" class="form-control" id="nombre" name="nombre" placeholder="..." required>
           </div>
           <div class="col-md-6">
             <label for="apellido" class="form-label">Apellido</label>
@@ -226,7 +232,7 @@
           </div>
           <div class="col-12">
             <label for="email" class="form-label">Email</label>
-            <input type="email" class="form-control" id="email" name="email" placeholder="ejemplo@email.com">
+            <input type="email" class="form-control" id="email" name="email" placeholder="ejemplo@email.com" required>
           </div>
           <div class="col-12">
             <label for="tel" class="form-label">Tel</label>
@@ -234,7 +240,7 @@
           </div>
           <div class="col-12">
             <label for="mensaje" class="form-label">Mensaje</label>
-            <textarea class="form-control" id="mensaje" name="mensaje" rows="3"></textarea>
+            <textarea class="form-control" id="mensaje" name="mensaje" rows="3" required></textarea>
           </div>
           <div class="col-12">
             <button type="submit" class="btn btn-primary">Enviar</button>
