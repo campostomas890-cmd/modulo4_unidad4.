@@ -39,3 +39,14 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
+
+require('dotenv').config();//cargar variables al inicio
+var express=require('express');
+
+//importaciones existentes
+var novedadesRouter=require('./routes/admin/novedades');
+
+//codigo middleware express
+
+//registrar ruta en la app
+app.use('/admin/novedades',novedadesRouter);
