@@ -16,5 +16,5 @@ router.post('/contacto',async(req,res,next) => {
   });
 await transporter.sendMail(obj);//<--este codigo manda todos los mensajes al mail vinculado a la cuenta de gmail que creaste para el proyecto.
 
-res.redirect('/contacto=enviado)';
+res.redirect('/contacto=enviado)');
   });
