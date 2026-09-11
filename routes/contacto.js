@@ -1,20 +1,20 @@
-var express = require('express');
-var router = express.Router();
-
-router.post('/', function(req, res, next) {
-  if (!req.body.nombre || !req.body.email || !req.body.mensaje) {
-    return res.redirect('/?contacto=error#conocenos');
-  }
-
-  console.log('Nuevo contacto:', {
-    nombre: req.body.nombre,
-    apellido: req.body.apellido,
-    email: req.body.email,
-    tel: req.body.tel,
-    mensaje: req.body.mensaje
+router.post('/contacto',async(req,res,next) => {
+  //ESTO YA LO TIENES EN .ENV
+  const obj={
+    to:'tomas@gmail.com',
+    subject:'contacto desde la web',
+    html:`${req.body.nombre} te mando este mensaje: ${req.body.mensaje}`
+  };
+    //var transporter = nodemailer.createTransport({
+    var transporter=nodemailer.createTransport({
+    host:process.env.SMTP_HOST,
+    port:process.env.SMTP_PORT,
+    outh:{
+    user:proces.env.SMTP_user,
+    pass:proces.env.SMTP_pass
+  }   
   });
+await transporter.sendMail(obj);//<--este codigo manda todos los mensajes al mail vinculado a la cuenta de gmail que creaste para el proyecto.
 
-  res.redirect('/?contacto=enviado#conocenos');
-});
-
-module.exports = router;
+res.redirect('/contacto=enviado)';
+  });
