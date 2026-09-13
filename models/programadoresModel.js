@@ -2,7 +2,7 @@ var pool = require('./bd');
 
 // READ: Obtener todos los programadores
 async function getProgramadores() {
-  var query = 'SELECT * FROM usuarioycontraseñaprogramadores ORDER BY id DESC';
+  var query = 'SELECT * FROM novedades ORDER BY id DESC';
   var rows = await pool.query(query);
   return rows;
 }
@@ -10,7 +10,7 @@ async function getProgramadores() {
 // CREATE: Insertar un programador
 async function insertProgramador(obj) {
   try {
-    var query = 'INSERT INTO usuarioycontraseñaprogramadores SET ?';
+    var query = 'INSERT INTO novedades SET ?';
     var rows = await pool.query(query, [obj]);
     return rows;
   } catch (error) {
@@ -20,7 +20,7 @@ async function insertProgramador(obj) {
 
 // DELETE: Eliminar por ID
 async function deleteProgramadorById(id) {
-  var query = 'DELETE FROM usuarioycontraseñaprogramadores WHERE id = ?';
+  var query = 'DELETE FROM novedades WHERE id = ?';
   var rows = await pool.query(query, [id]);
   return rows;
 }
