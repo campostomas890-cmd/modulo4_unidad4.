@@ -1,5 +1,7 @@
+/*codigo coregido falta de (const express = require('express'); , const router = express.Router(); y module.exports=router;*/
+const express = require('express');
+const router = express.Router();
 router.post('/contacto',async(req,res,next) => {
-  //ESTO YA LO TIENES EN .ENV
   const obj={
     to:'tomas@gmail.com',
     subject:'contacto desde la web',
@@ -18,3 +20,4 @@ await transporter.sendMail(obj);//<--este codigo manda todos los mensajes al mai
 
 res.redirect('/contacto=enviado)');
   });
+  module.exports=router;
