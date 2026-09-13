@@ -20,4 +20,4 @@ await transporter.sendMail(obj);//<--este codigo manda todos los mensajes al mai
 
 res.redirect('/contacto=enviado)');
   });
-  module.exports=router;
+  module.exports=router; 
