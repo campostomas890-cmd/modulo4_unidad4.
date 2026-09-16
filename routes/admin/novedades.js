@@ -8,7 +8,8 @@ router.get('/', async function (req, res, next) {
     var programadores = await programadoresModel.getProgramadores();
     res.render('admin/novedades', {
       layout: 'admin/layout',
-      programadores
+      programadores,
+      usuario: req.session.nombre
     });
   } catch (error) {
     console.log(error);
@@ -19,13 +20,15 @@ router.get('/', async function (req, res, next) {
 // 2. Agregar (Create)
 router.post('/agregar', async function (req, res, next) {
   try {
-    // Validamos que los campos de la tabla novedades (titulo, subtitulo, cuerpo) no vengan vacíos
     if (req.body.titulo !== "" && req.body.subtitulo !== "" && req.body.cuerpo !== "") {
       await programadoresModel.insertProgramador(req.body);
       res.redirect('/admin/novedades');
     } else {
+      var programadores = await programadoresModel.getProgramadores();
       res.render('admin/novedades', {
         layout: 'admin/layout',
+        programadores,
+        usuario: req.session.nombre,
         error: true,
         message: 'Todos los campos son requeridos'
       });
@@ -36,7 +39,52 @@ router.post('/agregar', async function (req, res, next) {
   }
 });
 
-// 3. Eliminar (Delete)
+// 3. Editar - cargar formulario de edición
+router.get('/editar/:id', async function (req, res, next) {
+  try {
+    var id = req.params.id;
+    var programador = await programadoresModel.getProgramadorById(id);
+    var programadores = await programadoresModel.getProgramadores();
+
+    res.render('admin/novedades', {
+      layout: 'admin/layout',
+      programadores,
+      programador,
+      usuario: req.session.nombre
+    });
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+});
+
+// 3. Editar - procesar actualización (Update)
+router.post('/editar/:id', async function (req, res, next) {
+  try {
+    var id = req.params.id;
+
+    if (req.body.titulo !== "" && req.body.subtitulo !== "" && req.body.cuerpo !== "") {
+      await programadoresModel.updateProgramadorById(id, req.body);
+      res.redirect('/admin/novedades');
+    } else {
+      var programador = await programadoresModel.getProgramadorById(id);
+      var programadores = await programadoresModel.getProgramadores();
+      res.render('admin/novedades', {
+        layout: 'admin/layout',
+        programadores,
+        programador,
+        usuario: req.session.nombre,
+        error: true,
+        message: 'Todos los campos son requeridos'
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+});
+
+// 4. Eliminar (Delete)
 router.get('/eliminar/:id', async function (req, res, next) {
   try {
     var id = req.params.id;
