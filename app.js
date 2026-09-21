@@ -11,6 +11,13 @@ var usersRouter = require('./routes/users');
 var novedadesRouter = require('./routes/admin/novedades');
 var contactoRouter = require('./routes/contacto');
 
+//para subir cloudinary
+var fileUpload = require('express-fileupload');
+app.use(fileUpload({
+useTempFiles: true,
+tempFileDir: '/tmp/'
+}));
+
 var app = express();
 
 require('dotenv').config();
