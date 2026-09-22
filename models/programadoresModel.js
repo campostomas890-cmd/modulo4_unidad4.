@@ -13,22 +13,17 @@ async function getProgramadorById(id) {
   var rows = await pool.query(query, [id]);
   return rows[0];
 }
-
 // CREATE: Insertar un programador
 async function insertProgramador(obj) {
-  try {
-    var query = 'INSERT INTO novedades SET ?';
-    var rows = await pool.query(query, [obj]);
-    return rows;
-  } catch (error) {
-    throw error;
-  }
+  var query = 'INSERT INTO novedades (titulo, subtitulo, cuerpo, img_id) VALUES (?, ?, ?, ?)';
+  var rows = await pool.query(query, [obj.titulo, obj.subtitulo, obj.cuerpo, obj.img_id || null]);
+  return rows;
 }
 
 // UPDATE: Modificar un programador por ID
 async function updateProgramadorById(id, obj) {
-  var query = 'UPDATE novedades SET titulo = ?, subtitulo = ?, cuerpo = ? WHERE id = ?';
-  var rows = await pool.query(query, [obj.titulo, obj.subtitulo, obj.cuerpo, id]);
+  var query = 'UPDATE novedades SET titulo = ?, subtitulo = ?, cuerpo = ?, img_id = ? WHERE id = ?';
+  var rows = await pool.query(query, [obj.titulo, obj.subtitulo, obj.cuerpo, obj.img_id || null, id]);
   return rows;
 }
 
